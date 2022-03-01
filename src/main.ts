@@ -9,7 +9,10 @@ async function bootstrap() {
   const seeder = app.get(SeederService);
   await seeder.seed();
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'https://balance-ui-cf2i3.ondigitalocean.app',
+    ],
     methods: ['GET', 'PUT', 'POST'],
   });
   const config = new DocumentBuilder()
