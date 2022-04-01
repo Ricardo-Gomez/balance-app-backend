@@ -1,10 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  Param,
   Post,
   Query,
+  Param,
   Request,
   UseGuards,
   UseInterceptors,
@@ -44,14 +45,6 @@ export class TransactionsController {
     @Query('from') from: string,
     @Query('to') to: string,
   ) {
-    // let startDate = new Date();
-    // let endDate = startDate.setDate(1);
-    // if (from) {
-    //   startDate = new Date(from);
-    // }
-    // if (to) {
-    //   endDate = new Date(to);
-    // }
     let start = new Date(from);
     let end = new Date(to);
 
@@ -76,7 +69,6 @@ export class TransactionsController {
     @Query('from') from: string,
     @Query('to') to: string,
   ) {
-    console.log(from, to);
     let start = new Date(from);
     let end = new Date(to);
 
@@ -87,8 +79,6 @@ export class TransactionsController {
     if (end instanceof Date && isNaN(end.getTime())) {
       end = new Date();
     }
-    // const currentDate = new Date();
-    // currentDate.setDate(1);
 
     const incomes = await this.transactionService.getIncomesByUserId(
       req.user.id,
@@ -96,5 +86,13 @@ export class TransactionsController {
     );
 
     return incomes;
+  }
+
+  @Delete(':id')
+  async deleteUserTransaction(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+  ) {
+    return this.transactionService.deleteTransaction(id);
   }
 }

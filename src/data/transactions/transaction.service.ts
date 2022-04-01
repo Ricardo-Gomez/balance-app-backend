@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateExpense } from './create-expense.dto';
 import { CreateIncome } from './create-income.dto';
 import {
@@ -12,6 +12,7 @@ import {
   IncomeTransactionDocument,
 } from './income-transaction.schema';
 
+import { TransactionDocument, Transaction } from './transaction.schema';
 @Injectable()
 export class TransactionService {
   constructor(
@@ -19,8 +20,13 @@ export class TransactionService {
     private incomeModel: Model<IncomeTransactionDocument>,
     @InjectModel(ExpenseTransaction.name)
     private expenseModel: Model<ExpenseTransactionDocument>,
+    @InjectModel(Transaction.name)
+    private transactionModel: Model<TransactionDocument>,
   ) {}
-
+  public async deleteTransaction(id: string) {
+    const _id = new Types.ObjectId(id);
+    return this.transactionModel.findByIdAndDelete(_id);
+  }
   public async addIncome(
     createIncome: CreateIncome,
   ): Promise<IncomeTransactionDocument> {

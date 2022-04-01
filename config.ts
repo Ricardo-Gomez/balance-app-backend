@@ -16,5 +16,6 @@ export default () => {
       refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
       refreshTokenExpiration: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
     },
+    corsOriginList: process.env.CORS_ORIGIN_LIST || '',
   };
 };

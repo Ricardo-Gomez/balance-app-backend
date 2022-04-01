@@ -5,6 +5,7 @@ import { Source } from '../sources/source.schema';
 import { ExpenseTransaction } from './expense-transaction.schema';
 import { IncomeTransaction } from './income-transaction.schema';
 
+export type TransactionDocument = Transaction & Document;
 @Schema({
   discriminatorKey: 'type',
   timestamps: true,

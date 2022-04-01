@@ -8,12 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const seeder = app.get(SeederService);
   await seeder.seed();
+  const whiteList = <string>app.get(ConfigService).get('corsOriginList');
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'https://balance-ui-cf2i3.ondigitalocean.app',
-    ],
-    methods: ['GET', 'PUT', 'POST'],
+    origin: whiteList.split(','),
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
   });
   const config = new DocumentBuilder()
     .setTitle('Training')
