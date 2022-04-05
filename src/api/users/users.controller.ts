@@ -6,6 +6,8 @@ import {
   Post,
   Body,
   UseInterceptors,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { CreateCategoryDto } from '../../data/categories/create-category.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
@@ -35,6 +37,16 @@ export class UsersController {
   async getAllCategories(@Request() req: RequestWithUser): Promise<Category[]> {
     const { id } = req.user;
     return this.categoryService.getUserCategories(id);
+  }
+
+  @UseInterceptors(MongooseClassSerializerInterceptor(Category))
+  @Delete('categories/:id')
+  async deleteCategory(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+  ): Promise<Category[]> {
+    const { id: owner } = req.user;
+    return this.categoryService.deleteUserCategory(owner, id);
   }
 
   @UseInterceptors(MongooseClassSerializerInterceptor(Category))
@@ -68,6 +80,15 @@ export class UsersController {
     return this.sourceService.addUserSource(SourceDto);
   }
 
+  @UseInterceptors(MongooseClassSerializerInterceptor(Source))
+  @Delete('sources/:id')
+  async deletePaymentType(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+  ): Promise<Category[]> {
+    const { id: owner } = req.user;
+    return this.sourceService.deleteUserPaymentType(owner, id);
+  }
   @UseInterceptors(MongooseClassSerializerInterceptor(Frequency))
   @Get('frequencies')
   async getFrequencies(): Promise<Frequency[]> {

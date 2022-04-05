@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Category, CategoryDocument } from './category.schema';
 import { CreateCategoryDto } from './create-category.dto';
 
@@ -25,5 +25,11 @@ export class CategoryService {
         runValidators: true,
       },
     );
+  }
+  async deleteUserCategory(owner: string, id: string): Promise<any> {
+    return this.categoryModel.findOneAndDelete({
+      _id: new Types.ObjectId(id),
+      owner,
+    });
   }
 }

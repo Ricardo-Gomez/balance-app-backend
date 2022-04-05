@@ -4,7 +4,7 @@ import { Document, ObjectId } from 'mongoose';
 
 export type CategoryDocument = Category & Document;
 
-@Schema()
+@Schema({ toObject: { getters: true }, toJSON: { getters: true } })
 export class Category {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;

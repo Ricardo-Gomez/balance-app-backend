@@ -10,7 +10,7 @@ function MongooseClassSerializerInterceptor(
   classToIntercept: Type,
 ): typeof ClassSerializerInterceptor {
   return class Interceptor extends ClassSerializerInterceptor {
-    constructor(reflector, options = { excludePrefixes: ['__'] }) {
+    constructor(reflector, options = { excludePrefixes: ['__', '_id'] }) {
       super(reflector, options);
     }
     private changePlainObjectToClass(document: PlainLiteralObject) {
@@ -26,7 +26,6 @@ function MongooseClassSerializerInterceptor(
       if (Array.isArray(response)) {
         return response.map(this.changePlainObjectToClass);
       }
-      console.log(response.toJSON());
       return this.changePlainObjectToClass(response);
     }
 
