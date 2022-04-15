@@ -4,12 +4,17 @@ Backend for the pet project to register incomes and outcomes.
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Dependencies
+MongoDB
+NodeJS > 14
 ## Installation
 
 ```bash
 $ npm install
 ```
 
+## Setup
+copy .env.example to .env and fill it up
 ## Running the app
 
 ```bash
